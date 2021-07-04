@@ -25,7 +25,10 @@
         "RequestFrom": "gateway"
       },
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/gateway/one/{url}"
+      "UpstreamPathTemplate": "/gateway/one/{url}",
+      "RouteClaimsRequirement": {
+        "role": "SuperAdmin"
+      }
     }
   ]
 }
