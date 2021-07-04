@@ -19,7 +19,7 @@ namespace UserManagement.Persistence
         public bool IsActive { get; set; } = true;
 
         public List<string> Roles = new List<string>();
-        public DateTime CreatedTimeStamp { get; set; }
-        public DateTime LastModifiedTimeStamp { get; set; }
+        public DateTime CreatedTimeStamp { get; set; } = DateTime.UtcNow;
+        public DateTime LastModifiedTimeStamp { get; set; } = DateTime.UtcNow;
     }
 }
