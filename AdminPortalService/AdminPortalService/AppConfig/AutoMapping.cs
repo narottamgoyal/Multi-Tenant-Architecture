@@ -9,7 +9,8 @@ namespace AdminPortalService.AppConfig
         public AutoMapping()
         {
             CreateMap<Tenant, TenantDto>().ReverseMap();
-            CreateMap<UserDetail, UserDetailDto>().ReverseMap();
+            CreateMap<UserDetailDto, UserDetail>()
+                .ForMember(x => x.EmailId, y => y.MapFrom(f => f.UserName));
         }
     }
 }

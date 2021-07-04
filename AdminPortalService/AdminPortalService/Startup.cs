@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MongoDbClient;
+using Newtonsoft.Json.Converters;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Linq;
@@ -29,8 +30,8 @@ namespace AdminPortalService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
+            // https://stackoverflow.com/a/55541764/1175623
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
             services.AddApiVersioning();
             services.AddAutoMapper(typeof(Startup));
 
@@ -38,6 +39,7 @@ namespace AdminPortalService
 
             services.AddSwaggerGen(options =>
             {
+                options.IncludeXmlComments(@"SwaggerDocumentation.xml");
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Admin Portal Service", Version = "v1" });
 
                 options.DocInclusionPredicate((version, desc) =>
@@ -50,10 +52,13 @@ namespace AdminPortalService
                     return versions.Any(v => $"v{v}" == version);
                 });
 
+                options.OperationFilter<AddRequiredHeaderParameter>();
                 options.OperationFilter<RemoveVersionFromParameter>();
                 options.DocumentFilter<ReplaceVersionWithExactValueInPath>();
             });
 
+            // https://stackoverflow.com/a/55541764/1175623
+            services.AddSwaggerGenNewtonsoftSupport();
             #endregion Swagger
 
             // Registration for tenant

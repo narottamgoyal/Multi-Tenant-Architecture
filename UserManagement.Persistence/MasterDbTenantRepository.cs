@@ -16,6 +16,7 @@ namespace UserManagement.Persistence
     public class MasterDbTenantRepository : MongoDbRepository<Tenant>, IMasterDbTenantRepository
     {
         public MasterDbTenantRepository(IDatabaseContext databaseContext) : base(databaseContext) { }
+
         public async Task<Tenant> AddTenantAsync(Tenant tenant)
         {
             tenant.CreatedTimeStamp = tenant.CreatedTimeStamp = DateTime.UtcNow;

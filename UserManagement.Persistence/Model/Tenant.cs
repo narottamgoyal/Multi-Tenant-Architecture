@@ -12,9 +12,7 @@ namespace UserManagement.Persistence
         public string Name { get; set; }
         public string SupportContact { get; set; }
         public string ConnectionString { get; set; }
-
-        private string _dbName;
-        public string DatabaseName { get { return _dbName; } set { _dbName = $"Tenant_{DomainName}"; } }
+        public string DatabaseName { get; set; }
         private string _domainName;
         public string DomainName { get { return _domainName; } set { _domainName = value?.ToLower(); } }
         public bool IsActive { get; set; } = true;
