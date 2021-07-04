@@ -1,9 +1,14 @@
+using AdminPortalService.AppConfig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Linq;
+using System.Reflection;
 
 namespace AdminPortalService
 {
@@ -21,9 +26,26 @@ namespace AdminPortalService
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+
+            services.AddApiVersioning();
+
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AdminPortalService", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Admin Portal Service", Version = "v1" });
+                options.SwaggerDoc("v2", new OpenApiInfo { Title = "Admin Portal Service", Version = "v2" });
+
+                options.DocInclusionPredicate((version, desc) =>
+                {
+                    if (!desc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
+                    var versions = methodInfo.DeclaringType
+                        .GetCustomAttributes(false)
+                        .OfType<ApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions);
+                    return versions.Any(v => $"v{v}" == version);
+                });
+
+                options.OperationFilter<RemoveVersionFromParameter>();
+                options.DocumentFilter<ReplaceVersionWithExactValueInPath>();
             });
         }
 
@@ -34,7 +56,11 @@ namespace AdminPortalService
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AdminPortalService v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"Admin Portal Service v1");
+                    c.SwaggerEndpoint($"/swagger/v2/swagger.json", $"Admin Portal Service v2");
+                });
             }
 
             app.UseRouting();
