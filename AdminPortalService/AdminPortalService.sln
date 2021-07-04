@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPortalService", "AdminPortalService\AdminPortalService.csproj", "{D901B3EF-7BC6-460B-B70F-F1B1298A9906}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TenantService", "..\TenantService\TenantService.csproj", "{FA2216CB-C3DB-4CE7-B9BB-00F2E755275B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Persistence", "..\UserManagement.Persistence\UserManagement.Persistence.csproj", "{E927037C-4AF3-4FE4-9C30-276FFEFAFBB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{D901B3EF-7BC6-460B-B70F-F1B1298A9906}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D901B3EF-7BC6-460B-B70F-F1B1298A9906}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D901B3EF-7BC6-460B-B70F-F1B1298A9906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA2216CB-C3DB-4CE7-B9BB-00F2E755275B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA2216CB-C3DB-4CE7-B9BB-00F2E755275B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA2216CB-C3DB-4CE7-B9BB-00F2E755275B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA2216CB-C3DB-4CE7-B9BB-00F2E755275B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E927037C-4AF3-4FE4-9C30-276FFEFAFBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E927037C-4AF3-4FE4-9C30-276FFEFAFBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E927037C-4AF3-4FE4-9C30-276FFEFAFBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E927037C-4AF3-4FE4-9C30-276FFEFAFBB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
