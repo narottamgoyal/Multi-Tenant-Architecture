@@ -62,26 +62,7 @@ namespace AdminPortalService
             #endregion Swagger
 
             // Registration for tenant
-            RegisterTenantDependencies(services);
-        }
-
-        private static void RegisterTenantDependencies(IServiceCollection services)
-        {
-            // Master Database
-            string ConnectionString = "mongodb://localhost:27017";
-            string DatabaseName = "InfinitePOC_MasterDb";
-            services.AddSingleton<IDatabaseContext>(new DatabaseContext(ConnectionString, DatabaseName));
-            services.AddSingleton<IMasterDbUserRepository, MasterDbUserRepository>();
-            services.AddSingleton<IMasterDbTenantRepository, MasterDbTenantRepository>();
-            services.AddSingleton<IMongoDbQueryRepository, MongoDbQueryRepository>();
-            services.AddSingleton<ITenantDbUserRepository, TenantDbUserRepository>();
-
-            // Service
-            services.AddSingleton<IUserDetailService, UserDetailService>();
-
-            // Redis
-            services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect("192.168.99.101:6379"));
-            services.AddSingleton<ICacheService, RedisCacheService>();
+            services.RegisterTenantDependencies();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

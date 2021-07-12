@@ -14,12 +14,12 @@ namespace AdminPortalService.Controllers.v1
     public class TenantAdminController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IUserDetailService _userDetailService;
+        private readonly ITenantDetailService _tenantService;
 
-        public TenantAdminController(IMapper mapper, IUserDetailService userDetailService)
+        public TenantAdminController(IMapper mapper, ITenantDetailService tenantService)
         {
             _mapper = mapper;
-            _userDetailService = userDetailService;
+            _tenantService = tenantService;
         }
 
         [HttpGet]
@@ -38,16 +38,18 @@ namespace AdminPortalService.Controllers.v1
         public async Task<IActionResult> PostAsync([FromBody] UserDetailDto userDetailDto, TenantUserRole role)
         {
             var user = _mapper.Map<UserDetail>(userDetailDto);
-            if (HttpContext.Request.Headers.ContainsKey("DomainName"))
+            var domainName = HttpContext.Request.Headers.ContainsKey("DomainName") ?
+                HttpContext.Request.Headers["DomainName"].ToString() : null;
+            if (!string.IsNullOrWhiteSpace(domainName))
             {
-                user.EmailId += "@" + HttpContext.Request.Headers["DomainName"].ToString();
+                user.EmailId += "@" + domainName;
                 if (role == TenantUserRole.AdminAndBasic)
                 {
                     user.Roles.Add(TenantUserRole.TenantAdmin.ToString());
                     user.Roles.Add(TenantUserRole.BasicUser.ToString());
                 }
                 else user.Roles.Add(role.ToString());
-                await _userDetailService.AddUserAsync(user);
+                await _tenantService.AddTenantUserAsync(domainName, user);
             }
             return StatusCode(StatusCodes.Status200OK, "done");
         }

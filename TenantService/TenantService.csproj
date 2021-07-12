@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.1.30" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <ProjectReference Include="..\UserManagement.Persistence\UserManagement.Persistence.csproj" />

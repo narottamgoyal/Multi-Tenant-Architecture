@@ -16,17 +16,20 @@ namespace AdminPortalService.Controllers.v1
     {
         private readonly IMapper _mapper;
         private readonly IUserDetailService _userDetailService;
+        private readonly ITenantDetailService _tenantService;
 
-        public SupperAdminController(IMapper mapper, IUserDetailService userDetailService)
+
+        public SupperAdminController(IMapper mapper, IUserDetailService userDetailService, ITenantDetailService tenantService)
         {
             _mapper = mapper;
             _userDetailService = userDetailService;
+            _tenantService = tenantService;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return StatusCode(StatusCodes.Status200OK, "SupperAdmin v2 is running...");
+            return StatusCode(StatusCodes.Status200OK, "SupperAdmin v1 is running...");
         }
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace AdminPortalService.Controllers.v1
         }
 
         /// <summary>
-        /// Create Tenant user
+        /// Create Tenant
         /// </summary>
         /// <param name="tenantDto"></param>
         /// <returns></returns>
@@ -57,6 +60,7 @@ namespace AdminPortalService.Controllers.v1
         {
             var tenant = _mapper.Map<Tenant>(tenantDto);
             tenant.DatabaseName = $"Tenant_{ Regex.Replace(tenantDto.DomainName, "[^a-zA-Z0-9]+", "", RegexOptions.Compiled) }";
+            await _tenantService.AddTenantAsync(tenant);
             return StatusCode(StatusCodes.Status200OK, "done");
         }
 
@@ -67,7 +71,7 @@ namespace AdminPortalService.Controllers.v1
         /// <param name="role"></param>
         /// <param name="domainName"></param>
         /// <returns></returns>
-        [HttpPost("tenantUser/{role}/{domainName}")]
+        [HttpPost("tenant/user/{role}/{domainName}")]
         public async Task<IActionResult> CreateTenantUserAsync([FromBody] UserDetailDto userDetailDto, TenantUserRole role, string domainName)
         {
             var user = _mapper.Map<UserDetail>(userDetailDto);
@@ -78,7 +82,7 @@ namespace AdminPortalService.Controllers.v1
                 user.Roles.Add(TenantUserRole.BasicUser.ToString());
             }
             else user.Roles.Add(role.ToString());
-            await _userDetailService.AddUserAsync(user);
+            await _tenantService.AddTenantUserAsync(domainName, user);
             return StatusCode(StatusCodes.Status200OK, "done");
         }
     }
