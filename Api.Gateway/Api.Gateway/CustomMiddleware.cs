@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Http;
 using Ocelot.Middleware;
 using System.Collections.Generic;
 using System.Net;
@@ -35,6 +36,7 @@ namespace Api.Gateway
         {
             var listOfClaims = new List<Claim>
             {
+                new Claim(JwtClaimTypes.Role, "fkgd"),
                 new Claim("CustomClaimName", "CustomClaimValue")
             };
 

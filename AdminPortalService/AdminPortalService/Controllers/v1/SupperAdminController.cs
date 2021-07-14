@@ -31,6 +31,7 @@ namespace AdminPortalService.Controllers.v1
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Get()
         {
             return StatusCode(StatusCodes.Status200OK, "SupperAdmin v1 is running...");
