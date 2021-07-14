@@ -4,11 +4,14 @@
     {
       "AddHeadersToRequest": {
         "Email": "Claims[email] > value",
-        "DomainName": "Claims[email] > value[1] > @"
+        "DomainName": "Claims[DomainName] > value"
       },
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "TestKey",
         "AllowedScopes": [ "api.portfolio.manager.v1" ]
+      },
+      "UpstreamHeaderTransform": {
+        "RequestFrom": "gateway"
       },
       "DownstreamHeaderTransform": {
         "ResponseFrom": "gateway"
@@ -19,13 +22,41 @@
           "Port": 60001
         }
       ],
-      "DownstreamPathTemplate": "/{url}",
+      "DownstreamPathTemplate": "/api/v1/SupperAdmin",
       "DownstreamScheme": "http",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UpstreamPathTemplate": "/gateway/sa/SupperAdmin",
+      "RouteIsCaseSensitive": false,
+      "RouteClaimsRequirement": {
+        "role": "SuperAdmin"
+      }
+    },
+    {
+      "AddHeadersToRequest": {
+        "Email": "Claims[email] > value",
+        "DomainName": "Claims[DomainName] > value"
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TestKey",
+        "AllowedScopes": [ "api.portfolio.manager.v1" ]
+      },
       "UpstreamHeaderTransform": {
         "RequestFrom": "gateway"
       },
-      "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/gateway/sa/{url}",
+      "DownstreamHeaderTransform": {
+        "ResponseFrom": "gateway"
+      },
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 60001
+        }
+      ],
+      "DownstreamPathTemplate": "/api/v1/SupperAdmin/{url}",
+      "DownstreamScheme": "http",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UpstreamPathTemplate": "/gateway/sa/SupperAdmin/{url}",
+      "RouteIsCaseSensitive": false,
       "RouteClaimsRequirement": {
         "role": "SuperAdmin"
       }
@@ -48,13 +79,14 @@
           "Port": 60001
         }
       ],
-      "DownstreamPathTemplate": "/{url}",
+      "DownstreamPathTemplate": "/api/v1/TenantAdmin/{role}",
       "DownstreamScheme": "http",
       "UpstreamHeaderTransform": {
         "RequestFrom": "gateway"
       },
-      "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/gateway/ta/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UpstreamPathTemplate": "/gateway/ta/{role}",
+      "RouteIsCaseSensitive": false,
       "RouteClaimsRequirement": {
         "role": "TenantAdmin"
       }
