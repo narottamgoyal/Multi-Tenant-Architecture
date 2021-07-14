@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\TenantService\TenantService.csproj" />
     <ProjectReference Include="..\..\UserManagement.Persistence\UserManagement.Persistence.csproj" />
   </ItemGroup>

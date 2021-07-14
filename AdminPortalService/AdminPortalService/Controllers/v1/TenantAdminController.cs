@@ -1,5 +1,7 @@
 ﻿using AdminPortalService.Model;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -8,6 +10,8 @@ using UserManagement.Persistence;
 
 namespace AdminPortalService.Controllers.v1
 {
+    [Authorize(Roles = "TenantAdmin2,TenantAdmin")]
+    [EnableCors("corspolicy")]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]

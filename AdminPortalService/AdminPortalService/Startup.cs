@@ -15,6 +15,12 @@ using TenantService;
 
 namespace AdminPortalService
 {
+    public class Constants
+    {
+        public const string Authority = "http://localhost:5000";
+        public const string ApiResourceName = "api.portfolio.manager.v1";
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -27,6 +33,28 @@ namespace AdminPortalService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = Constants.Authority;
+                    options.RequireHttpsMetadata = false;
+                    // ApiResourceName
+                    options.Audience = Constants.ApiResourceName;
+                });
+
+
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("corspolicy",
+                        builder =>
+                        {
+                            builder.AllowAnyOrigin()//(new string[] { "*", "http://localhost:4200" })
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                        });
+            });
+
             // https://stackoverflow.com/a/55541764/1175623
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
             services.AddApiVersioning();
@@ -79,7 +107,8 @@ namespace AdminPortalService
             }
 
             app.UseRouting();
-
+            app.UseCors("corspolicy");
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

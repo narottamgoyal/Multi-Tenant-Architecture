@@ -1,5 +1,7 @@
 ﻿using AdminPortalService.Model;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
@@ -9,7 +11,9 @@ using UserManagement.Persistence;
 
 namespace AdminPortalService.Controllers.v1
 {
+    [Authorize(Roles = "SuperAdmin")]
     [ApiVersion("1")]
+    [EnableCors("corspolicy")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class SupperAdminController : ControllerBase
