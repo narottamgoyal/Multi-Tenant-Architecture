@@ -10,7 +10,7 @@ using UserManagement.Persistence;
 
 namespace AdminPortalService.Controllers.v1
 {
-    [Authorize(Roles = "TenantAdmin2,TenantAdmin")]
+    [Authorize(Roles = "TenantAdmin")]
     [EnableCors("corspolicy")]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]

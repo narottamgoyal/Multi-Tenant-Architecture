@@ -6,7 +6,10 @@
   
  <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.10.3" />
-    <PackageReference Include="MongoDbClient" Version="1.0.0" />
   </ItemGroup>
+  
+ <ItemGroup>
+   <ProjectReference Include="..\MongoDbClient\MongoDbClient.csproj" />
+ </ItemGroup>
 
 </Project>
