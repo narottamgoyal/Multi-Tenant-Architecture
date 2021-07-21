@@ -9,6 +9,12 @@ using TenantService;
 
 namespace UserPortalService
 {
+    public class Constants
+    {
+        public const string Authority = "http://localhost:5000";
+        public const string ApiResourceName = "api.portfolio.manager.v1";
+    }
+
     public class Startup
     {
         public IConfiguration Configuration { get; }
@@ -33,6 +39,29 @@ namespace UserPortalService
             services.AddHttpContextAccessor();
             services.RegisterDbDependancies();
             services.RegisterServiceDependancies();
+
+
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = Constants.Authority;
+                    options.RequireHttpsMetadata = false;
+                    // ApiResourceName
+                    options.Audience = Constants.ApiResourceName;
+                });
+
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("corspolicy",
+                        builder =>
+                        {
+                            builder.AllowAnyOrigin()//(new string[] { "*", "http://localhost:4200" })
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                        });
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserPortalService", Version = "v1" });
@@ -52,7 +81,8 @@ namespace UserPortalService
             }
 
             app.UseRouting();
-
+            app.UseCors("corspolicy");
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

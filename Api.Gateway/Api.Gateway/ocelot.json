@@ -94,6 +94,36 @@
     {
       "AddHeadersToRequest": {
         "Email": "Claims[email] > value",
+        "DomainName": "Claims[DomainName] > value"
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TestKey",
+        "AllowedScopes": [ "api.portfolio.manager.v1" ]
+      },
+      "UpstreamHeaderTransform": {
+        "RequestFrom": "gateway"
+      },
+      "DownstreamHeaderTransform": {
+        "ResponseFrom": "gateway"
+      },
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 58211
+        }
+      ],
+      "DownstreamPathTemplate": "/Home",
+      "DownstreamScheme": "http",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UpstreamPathTemplate": "/gateway/up/home",
+      "RouteIsCaseSensitive": false,
+      "RouteClaimsRequirement": {
+        "role": "BasicUser"
+      }
+    },
+    {
+      "AddHeadersToRequest": {
+        "Email": "Claims[email] > value",
         "DomainName": "Claims[email] > value[1] > @"
       },
       "AuthenticationOptions": {
